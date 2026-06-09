@@ -28,7 +28,7 @@ export function liveCmd(p: Command): void {
           let state: { live: LiveMatch[]; upcoming: Fixture[]; stale: boolean; reason?: string } =
             { live: [], upcoming: [], stale: false };
 
-          async function refresh(): Promise<void> {
+          const refresh = async (): Promise<void> => {
             try {
               const { data: live, stale, reason } = await runCached<LiveMatch[]>(
                 'live/all', 10,
@@ -50,7 +50,7 @@ export function liveCmd(p: Command): void {
               state = { live: live.filter(filterFav), upcoming: upcoming.filter(filterFav), stale, reason };
               app.rerender(React.createElement(Dashboard, { ...state, favoriteOnly }));
             } catch (e) { die(e, g); }
-          }
+          };
 
           const app = render(React.createElement(Dashboard, { ...state, favoriteOnly }));
           await refresh();

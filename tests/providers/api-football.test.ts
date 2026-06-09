@@ -61,9 +61,9 @@ describe('ApiFootballProvider', () => {
     });
     const p = new ApiFootballProvider('key');
     const out = await p.liveMatches();
-    expect(out[0].minute).toBe(23);
-    expect(out[0].score).toEqual({ home: 1, away: 0 });
-    expect(out[0].stage).toBe('r16');
-    expect(out[0].events[0]).toMatchObject({ minute: 12, type: 'goal', team: 'home', player: 'X' });
+    expect(out[0]!.minute).toBe(23);
+    expect(out[0]!.score).toEqual({ home: 1, away: 0 });
+    expect(out[0]!.stage).toBe('r16');
+    expect(out[0]!.events[0]).toMatchObject({ minute: 12, type: 'goal', team: 'home', player: 'X' });
   });
 });

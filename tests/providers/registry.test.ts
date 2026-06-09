@@ -26,7 +26,7 @@ describe('ProviderRegistry', () => {
     const a = stub('a'); const b = stub('b');
     const reg = new ProviderRegistry([a, b]);
     const out = await reg.call((p) => p.fixtures({}));
-    expect(out[0].id).toBe('a');
+    expect(out[0]!.id).toBe('a');
     expect(b.fixtures).not.toHaveBeenCalled();
   });
 
@@ -34,7 +34,7 @@ describe('ProviderRegistry', () => {
     const a = stub('a', 'unreachable'); const b = stub('b');
     const reg = new ProviderRegistry([a, b]);
     const out = await reg.call((p) => p.fixtures({}));
-    expect(out[0].id).toBe('b');
+    expect(out[0]!.id).toBe('b');
   });
 
   it('throws NO_PROVIDER_CONFIGURED when list empty after filtering', async () => {
@@ -55,6 +55,6 @@ describe('ProviderRegistry', () => {
     (a.fixtures as ReturnType<typeof vi.fn>).mockClear();
     const out = await reg.call((p) => p.fixtures({}));
     expect(a.fixtures).not.toHaveBeenCalled();
-    expect(out[0].id).toBe('b');
+    expect(out[0]!.id).toBe('b');
   });
 });
