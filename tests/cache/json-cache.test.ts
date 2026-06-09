@@ -51,4 +51,15 @@ describe('JsonCache', () => {
     expect(await c.read('fixtures/all')).toBeNull();
     expect((await c.read('live/all'))!.data).toBe(2);
   });
+
+  it('sanitizes traversal attempts in keys', async () => {
+    const c = new JsonCache(root);
+    await c.write('../../../escape', { x: 1 }, 60, 'p');
+    const r = await c.read<{ x: number }>('../../../escape');
+    expect(r?.data).toEqual({ x: 1 });
+    // confirm no file was created outside root
+    const { existsSync } = await import('node:fs');
+    const { join } = await import('node:path');
+    expect(existsSync(join(root, '..', '..', '..', 'escape.json'))).toBe(false);
+  });
 });

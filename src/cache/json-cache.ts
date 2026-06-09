@@ -19,11 +19,19 @@ export interface ReadOpts {
   allowStale?: boolean;
 }
 
+function sanitize(key: string): string {
+  return key
+    .split('/')
+    .map((seg) => seg.replace(/[^A-Za-z0-9_-]/g, '_'))
+    .filter(Boolean)
+    .join('/');
+}
+
 export class JsonCache {
   constructor(private root: string) {}
 
   private pathFor(key: string): string {
-    return join(this.root, `${key}.json`);
+    return join(this.root, `${sanitize(key)}.json`);
   }
 
   async read<T>(key: string, opts: ReadOpts = {}): Promise<ReadResult<T> | null> {
@@ -52,7 +60,7 @@ export class JsonCache {
       await rm(this.root, { recursive: true, force: true });
       return;
     }
-    const target = join(this.root, resource);
+    const target = join(this.root, sanitize(resource));
     try {
       const entries = await readdir(target);
       await Promise.all(entries.map((f) => rm(join(target, f), { force: true })));

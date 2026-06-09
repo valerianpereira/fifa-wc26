@@ -58,9 +58,17 @@ export function liveCmd(p: Command): void {
 
           process.stdin.setRawMode?.(true);
           process.stdin.resume();
+          const cleanup = (): void => {
+            clearInterval(timer);
+            process.stdin.setRawMode?.(false);
+            process.stdin.pause();
+            app.unmount();
+          };
+          process.on('SIGINT', () => { cleanup(); process.exit(0); });
+          process.on('exit', cleanup);
           process.stdin.on('data', (buf: Buffer) => {
             const k = buf.toString();
-            if (k === 'q' || k === '') { clearInterval(timer); app.unmount(); process.exit(0); }
+            if (k === 'q' || k === '') { cleanup(); process.exit(0); }
             if (k === 'r') void refresh();
             if (k === 't') { favoriteOnly = !favoriteOnly; void refresh(); }
           });

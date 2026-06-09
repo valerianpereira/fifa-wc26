@@ -9,6 +9,12 @@ const BASE = 'https://v3.football.api-sports.io';
 const LEAGUE_ID = 1;
 const SEASON = 2026;
 
+function mapGroup(round: string): string | undefined {
+  const m = round.match(/\b([A-Z])\b(?!\w)/);
+  if (m && m[1] && /group/i.test(round)) return m[1].toUpperCase();
+  return undefined;
+}
+
 function mapStage(round: string): Stage {
   const r = round.toLowerCase();
   if (r.includes('final') && !r.includes('semi') && !r.includes('quarter') && !r.includes('third')) return 'final';
@@ -57,7 +63,7 @@ function fixtureFromAF(f: AFFixture): Fixture {
     id: String(f.fixture.id),
     utcKickoff: new Date(f.fixture.date).toISOString(),
     stage: mapStage(f.league.round),
-    group: undefined,
+    group: mapGroup(f.league.round),
     home: { code: f.teams.home.code ?? f.teams.home.name.slice(0, 3).toUpperCase(), name: f.teams.home.name },
     away: { code: f.teams.away.code ?? f.teams.away.name.slice(0, 3).toUpperCase(), name: f.teams.away.name },
     venue: f.fixture.venue.name ?? '',

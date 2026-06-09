@@ -47,6 +47,20 @@ describe('ApiFootballProvider', () => {
     );
   });
 
+  it('extracts group letter from round string', async () => {
+    httpJson.mockResolvedValueOnce({
+      response: [{
+        fixture: { id: 1, date: '2026-06-15T18:00:00+00:00', status: { short: 'NS' }, venue: { name: 'V' } },
+        league: { round: 'Group Stage - A', season: 2026 },
+        teams: { home: { name: 'H', code: 'HHH' }, away: { name: 'A', code: 'AAA' } },
+        goals: { home: null, away: null },
+      }],
+    });
+    const p = new ApiFootballProvider('key');
+    const out = await p.fixtures({});
+    expect(out[0]!.group).toBe('A');
+  });
+
   it('normalizes a live response into LiveMatch', async () => {
     httpJson.mockResolvedValueOnce({
       response: [
