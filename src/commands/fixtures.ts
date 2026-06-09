@@ -12,8 +12,8 @@ export function fixturesCmd(p: Command): void {
     .option('--from <date>', 'ISO date (or "today")')
     .option('--to <date>', 'ISO date')
     .option('--stage <s>', 'group|r16|qf|sf|third|final')
-    .action(async (opts, cmd) => {
-      const g = cmd.optsWithGlobals<GlobalOpts & { team?: string; from?: string; to?: string; stage?: string }>();
+    .action(async (_opts, cmd: Command) => {
+      const g = cmd.optsWithGlobals() as GlobalOpts & { team?: string; from?: string; to?: string; stage?: string };
       try {
         const q: FixtureQuery = {
           teamCode: g.team,
