@@ -16,11 +16,13 @@ export interface GlobalOpts {
   verbose?: boolean;
 }
 
-const HOME = process.env.WC26_HOME ?? join(homedir(), '.wc26');
+function homeDir(): string {
+  return process.env.WC26_HOME ?? join(homedir(), '.wc26');
+}
 
 export const env = {
-  config: new ConfigStore(HOME),
-  cache: new JsonCache(join(HOME, 'cache')),
+  get config(): ConfigStore { return new ConfigStore(homeDir()); },
+  get cache(): JsonCache { return new JsonCache(join(homeDir(), 'cache')); },
 };
 
 export async function buildRegistry(opts: GlobalOpts): Promise<ProviderRegistry> {
