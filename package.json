@@ -3,9 +3,16 @@
   "version": "0.1.0",
   "description": "FIFA World Cup 2026 CLI - fixtures, live scores, brackets",
   "type": "module",
-  "bin": { "wc26": "dist/cli.js" },
-  "files": ["dist", "README.md"],
-  "engines": { "node": ">=20" },
+  "bin": {
+    "wc26": "dist/cli.js"
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "engines": {
+    "node": ">=20"
+  },
   "scripts": {
     "build": "tsup",
     "dev": "tsx src/cli.ts",
@@ -33,6 +40,7 @@
     "@typescript-eslint/parser": "^7.16.0",
     "@vitest/coverage-v8": "^2.0.0",
     "eslint": "^8.57.0",
+    "ink-testing-library": "^4.0.0",
     "msw": "^2.3.5",
     "prettier": "^3.3.3",
     "tsup": "^8.2.4",
