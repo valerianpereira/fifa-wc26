@@ -97,12 +97,14 @@ export class TheSportsDbProvider implements Provider {
   }
 
   async liveMatches(): Promise<LiveMatch[]> {
+    const today = new Date().toISOString().slice(0, 10);
     const data = await httpJson<{ events?: TSDBEvent[] | null }>(
-      `${base(this.apiKey)}/livescore.php?l=Soccer`,
+      `${base(this.apiKey)}/eventsday.php?d=${today}&l=${LEAGUE_ID}`,
     ).catch(() => ({ events: [] as TSDBEvent[] }));
     return (data.events ?? [])
-      .filter((e) => (e as TSDBEvent & { idLeague?: string }).idLeague === LEAGUE_ID || (e.strEvent ?? '').includes('World Cup'))
-      .map((e) => ({ ...fixtureFromTSDB(e), minute: 0, events: [] }));
+      .map(fixtureFromTSDB)
+      .filter((f) => f.status === 'live')
+      .map((f) => ({ ...f, minute: 0, events: [] }));
   }
 
   async match(id: string): Promise<MatchDetail> {
