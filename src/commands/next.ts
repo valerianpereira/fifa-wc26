@@ -32,7 +32,7 @@ export function nextCmd(p: Command): void {
           .slice(0, n);
         if (g.json) process.stdout.write(renderJson(out, { stale, reason }) + '\n');
         else if (g.plain) process.stdout.write(renderFixturesPlain(out));
-        else { if (stale) process.stdout.write(`[STALE${reason ? ` ${reason}` : ''}]\n`); process.stdout.write(renderFixturesPretty(out) + '\n'); }
+        else { if (stale) process.stdout.write(`[STALE${reason ? ` ${reason}` : ''}]\n`); process.stdout.write(renderFixturesPretty(out, 'no upcoming matches') + '\n'); }
       } catch (e) { die(e, g); }
     });
 }

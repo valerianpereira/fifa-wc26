@@ -9,7 +9,7 @@ export interface Config {
 }
 
 const DEFAULTS: Config = {
-  providers: ['espn', 'thesportsdb'],
+  providers: ['football-data', 'espn', 'thesportsdb'],
   apiKeys: {},
   defaults: { watchIntervalSec: 15, output: 'pretty' },
 };

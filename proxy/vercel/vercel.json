@@ -1,0 +1,9 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "rewrites": [
+    { "source": "/health", "destination": "/api/proxy?p=/health" },
+    { "source": "/competitions/:path*", "destination": "/api/proxy?p=/competitions/:path*" },
+    { "source": "/matches/:path*", "destination": "/api/proxy?p=/matches/:path*" },
+    { "source": "/teams/:path*", "destination": "/api/proxy?p=/teams/:path*" }
+  ]
+}

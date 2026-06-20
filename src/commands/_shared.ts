@@ -5,6 +5,7 @@ import { JsonCache } from '../cache/json-cache.js';
 import { ProviderRegistry } from '../providers/registry.js';
 import { EspnProvider } from '../providers/espn.js';
 import { TheSportsDbProvider } from '../providers/thesportsdb.js';
+import { FootballDataProvider } from '../providers/football-data.js';
 import type { Provider } from '../providers/types.js';
 import { WC26Error, exitCodeFor } from '../errors.js';
 
@@ -33,6 +34,10 @@ export async function buildRegistry(opts: GlobalOpts): Promise<ProviderRegistry>
     const key = (await env.config.apiKey(name)) ?? '';
     if (name === 'espn') providers.push(new EspnProvider());
     else if (name === 'thesportsdb') providers.push(new TheSportsDbProvider(key || '3'));
+    else if (name === 'football-data') {
+      const p = new FootballDataProvider();
+      if (p.isConfigured()) providers.push(p);
+    }
   }
   return new ProviderRegistry(providers);
 }

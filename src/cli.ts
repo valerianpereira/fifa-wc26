@@ -13,7 +13,7 @@ const program = new Command();
 program
   .name('wc26')
   .description('FIFA World Cup 2026 CLI')
-  .version('0.1.0')
+  .version('0.1.2')
   .option('--json', 'emit JSON to stdout')
   .option('--plain', 'tab-separated, no color')
   .option('--no-cache', 'skip cache read')

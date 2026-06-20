@@ -1,0 +1,14 @@
+{
+  "name": "wc26-proxy-vercel",
+  "private": true,
+  "version": "0.0.0",
+  "scripts": {
+    "dev": "vercel dev --listen 8787",
+    "deploy": "vercel --prod"
+  },
+  "devDependencies": {
+    "@vercel/node": "^3.2.0",
+    "typescript": "^5.5.3",
+    "vercel": "^54.14.2"
+  }
+}

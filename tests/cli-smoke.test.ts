@@ -12,6 +12,6 @@ describe('cli smoke', () => {
 
   it('prints version', () => {
     const out = execFileSync('npx', ['tsx', 'src/cli.ts', '--version'], { encoding: 'utf8' });
-    expect(out.trim()).toBe('0.1.0');
+    expect(out.trim()).toBe('0.1.2');
   });
 });

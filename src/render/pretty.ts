@@ -15,7 +15,8 @@ const colorStatus = (s: Fixture['status']): string => {
 
 const scoreStr = (f: Fixture): string => (f.score ? `${f.score.home}-${f.score.away}` : '–');
 
-export function renderFixturesPretty(fixtures: Fixture[]): string {
+export function renderFixturesPretty(fixtures: Fixture[], emptyMessage = 'no matches'): string {
+  if (fixtures.length === 0) return chalk.dim(emptyMessage);
   const t = new Table({
     head: ['Kickoff (UTC)', 'Stage', 'Home', 'Away', 'Venue', 'Score', 'Status'],
     style: { head: ['bold'] },

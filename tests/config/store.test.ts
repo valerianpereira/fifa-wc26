@@ -15,7 +15,7 @@ describe('ConfigStore', () => {
   it('returns defaults when no file exists', async () => {
     const c = new ConfigStore(root);
     const cfg = await c.load();
-    expect(cfg.providers).toEqual(['espn', 'thesportsdb']);
+    expect(cfg.providers).toEqual(['football-data', 'espn', 'thesportsdb']);
     expect(cfg.defaults.watchIntervalSec).toBe(15);
     expect(cfg.defaults.output).toBe('pretty');
     expect(cfg.favoriteTeam).toBeUndefined();
