@@ -3,8 +3,8 @@ import { join } from 'node:path';
 import { ConfigStore } from '../config/store.js';
 import { JsonCache } from '../cache/json-cache.js';
 import { ProviderRegistry } from '../providers/registry.js';
-import { ApiFootballProvider } from '../providers/api-football.js';
-import { FootballDataProvider } from '../providers/football-data.js';
+import { EspnProvider } from '../providers/espn.js';
+import { TheSportsDbProvider } from '../providers/thesportsdb.js';
 import type { Provider } from '../providers/types.js';
 import { WC26Error, exitCodeFor } from '../errors.js';
 
@@ -31,8 +31,8 @@ export async function buildRegistry(opts: GlobalOpts): Promise<ProviderRegistry>
   const providers: Provider[] = [];
   for (const name of names) {
     const key = (await env.config.apiKey(name)) ?? '';
-    if (name === 'api-football') providers.push(new ApiFootballProvider(key));
-    else if (name === 'football-data') providers.push(new FootballDataProvider(key));
+    if (name === 'espn') providers.push(new EspnProvider());
+    else if (name === 'thesportsdb') providers.push(new TheSportsDbProvider(key || '3'));
   }
   return new ProviderRegistry(providers);
 }

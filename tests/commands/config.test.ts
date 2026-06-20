@@ -27,8 +27,8 @@ describe('config command', () => {
   });
 
   it('set apiKey provider key', async () => {
-    await run(['config', 'set', 'apiKey', 'api-football', 'KEY']);
-    const out = await run(['config', 'get', 'apiKey', 'api-football']);
+    await run(['config', 'set', 'apiKey', 'thesportsdb', 'KEY']);
+    const out = await run(['config', 'get', 'apiKey', 'thesportsdb']);
     expect(out.trim()).toBe('KEY');
   });
 });

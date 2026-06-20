@@ -39,7 +39,7 @@ export class ProviderRegistry {
     const candidates = this.providers.filter((p) => p.isConfigured() && !this.isOpen(p.name));
     if (candidates.length === 0) {
       if (this.providers.length === 0 || !this.providers.some((p) => p.isConfigured())) {
-        throw new WC26Error('NO_PROVIDER_CONFIGURED', 'no provider configured. run: wc26 config set apiKey <provider> <KEY>');
+        throw new WC26Error('NO_PROVIDER_CONFIGURED', 'no provider configured. defaults are keyless (espn, thesportsdb).');
       }
       throw new WC26Error('PROVIDER_UNREACHABLE', 'all providers temporarily unavailable');
     }

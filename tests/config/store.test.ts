@@ -8,15 +8,14 @@ let root: string;
 beforeEach(() => (root = mkdtempSync(join(tmpdir(), 'wc26cfg-'))));
 afterEach(() => {
   rmSync(root, { recursive: true, force: true });
-  delete process.env.WC26_APIFOOTBALL_KEY;
-  delete process.env.WC26_FOOTBALLDATA_KEY;
+  delete process.env.WC26_THESPORTSDB_KEY;
 });
 
 describe('ConfigStore', () => {
   it('returns defaults when no file exists', async () => {
     const c = new ConfigStore(root);
     const cfg = await c.load();
-    expect(cfg.providers).toEqual(['api-football', 'football-data']);
+    expect(cfg.providers).toEqual(['espn', 'thesportsdb']);
     expect(cfg.defaults.watchIntervalSec).toBe(15);
     expect(cfg.defaults.output).toBe('pretty');
     expect(cfg.favoriteTeam).toBeUndefined();
@@ -33,14 +32,14 @@ describe('ConfigStore', () => {
 
   it('apiKey env vars override file', async () => {
     const c = new ConfigStore(root);
-    await c.setApiKey('api-football', 'from-file');
-    process.env.WC26_APIFOOTBALL_KEY = 'from-env';
-    expect(await c.apiKey('api-football')).toBe('from-env');
+    await c.setApiKey('thesportsdb', 'from-file');
+    process.env.WC26_THESPORTSDB_KEY = 'from-env';
+    expect(await c.apiKey('thesportsdb')).toBe('from-env');
   });
 
   it('apiKey falls back to file when env unset', async () => {
     const c = new ConfigStore(root);
-    await c.setApiKey('football-data', 'fileval');
-    expect(await c.apiKey('football-data')).toBe('fileval');
+    await c.setApiKey('thesportsdb', 'fileval');
+    expect(await c.apiKey('thesportsdb')).toBe('fileval');
   });
 });

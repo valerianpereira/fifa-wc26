@@ -9,14 +9,13 @@ export interface Config {
 }
 
 const DEFAULTS: Config = {
-  providers: ['api-football', 'football-data'],
+  providers: ['espn', 'thesportsdb'],
   apiKeys: {},
   defaults: { watchIntervalSec: 15, output: 'pretty' },
 };
 
 const ENV_KEYS: Record<string, string> = {
-  'api-football': 'WC26_APIFOOTBALL_KEY',
-  'football-data': 'WC26_FOOTBALLDATA_KEY',
+  'thesportsdb': 'WC26_THESPORTSDB_KEY',
 };
 
 export class ConfigStore {
