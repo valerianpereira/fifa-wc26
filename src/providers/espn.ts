@@ -256,10 +256,18 @@ export class EspnProvider implements Provider {
   }
 
   async team(code: string): Promise<Team> {
-    const data = await httpJson<{
-      sports?: Array<{ leagues?: Array<{ teams?: Array<{ team: { id: string; abbreviation?: string; displayName: string } }> }> }>;
-    }>(`${BASE}/teams`);
-    const teams = data.sports?.[0]?.leagues?.[0]?.teams ?? [];
+    let teams: Array<{ team: { id: string; abbreviation?: string; displayName: string } }> = [];
+    try {
+      const data = await httpJson<{
+        sports?: Array<{ leagues?: Array<{ teams?: Array<{ team: { id: string; abbreviation?: string; displayName: string } }> }> }>;
+      }>(`${BASE}/teams`);
+      teams = data.sports?.[0]?.leagues?.[0]?.teams ?? [];
+    } catch (e) {
+      if (e instanceof WC26Error && e.code === 'NOT_FOUND') {
+        throw new WC26Error('PROVIDER_UNREACHABLE', `espn teams endpoint unavailable for fifa.worldcup`);
+      }
+      throw e;
+    }
     const match = teams.find((t) => (t.team.abbreviation ?? '').toUpperCase() === code.toUpperCase());
     if (!match) throw new WC26Error('NOT_FOUND', `team ${code} not found`);
     const t = match.team;
