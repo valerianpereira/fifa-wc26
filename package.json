@@ -1,14 +1,15 @@
 {
-  "name": "wc26",
+  "name": "fifa-wc26",
   "version": "0.1.0",
-  "description": "FIFA World Cup 2026 CLI - fixtures, live scores, brackets",
+  "description": "FIFA World Cup 2026 CLI: fixtures, live scores, group standings, ASCII bracket, team lookup. Keyless providers, smart cache, terminal-friendly output.",
   "type": "module",
   "bin": {
     "wc26": "dist/cli.js"
   },
   "files": [
     "dist",
-    "README.md"
+    "README.md",
+    "LICENSE"
   ],
   "engines": {
     "node": ">=20"
@@ -21,7 +22,33 @@
     "test:cov": "vitest run --coverage",
     "lint": "eslint 'src/**/*.{ts,tsx}' 'tests/**/*.{ts,tsx}'",
     "typecheck": "tsc --noEmit",
-    "format": "prettier --write ."
+    "format": "prettier --write .",
+    "prepublishOnly": "npm run lint && npm run typecheck && npm test && npm run build"
+  },
+  "keywords": [
+    "fifa",
+    "world-cup",
+    "wc26",
+    "world-cup-2026",
+    "football",
+    "soccer",
+    "cli",
+    "fixtures",
+    "live-scores",
+    "bracket",
+    "standings",
+    "terminal",
+    "tui"
+  ],
+  "author": "Valerian Pereira",
+  "license": "MIT",
+  "homepage": "https://github.com/valerianpereira/fifa-wc26#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/valerianpereira/fifa-wc26.git"
+  },
+  "bugs": {
+    "url": "https://github.com/valerianpereira/fifa-wc26/issues"
   },
   "dependencies": {
     "chalk": "^5.3.0",
