@@ -14,7 +14,7 @@ The package name is `fifa-wc26`; the binary it installs is `wc26`.
 
 ## Quick start
 
-Default providers work keyless. The bundled `football-data` provider routes through a project-hosted proxy, so no user-side key is required.
+Default providers work keyless. No user-side key required.
 
 ```bash
 wc26 fixtures --team ARG --from today
@@ -45,13 +45,11 @@ export WC26_THESPORTSDB_KEY=...
 
 `wc26` chains providers with automatic failover:
 
-1. `football-data` (api.football-data.org via the project-hosted proxy — full 104-match WC schedule + knockout stages; no key needed)
+1. `football-data` (api.football-data.org — full 104-match WC schedule + knockout stages; no key needed)
 2. `espn` (site.api.espn.com — keyless)
 3. `thesportsdb` (thesportsdb.com — free tier uses key `3`; set a paid key for higher limits)
 
 Set a paid `thesportsdb` key via env var (`WC26_THESPORTSDB_KEY`) or `wc26 config set apiKey thesportsdb <key>`.
-
-Override the proxy base at runtime with `WC26_PROXY_URL=...` (useful for self-hosting).
 
 ## Cache
 
