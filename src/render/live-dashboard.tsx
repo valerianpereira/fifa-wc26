@@ -1,6 +1,7 @@
 import React from 'react';
 import { Box, Text } from 'ink';
 import type { LiveMatch, Fixture } from '../providers/types.js';
+import { formatKickoff } from './time.js';
 
 export interface DashboardProps {
   live: LiveMatch[];
@@ -37,7 +38,7 @@ export function Dashboard({ live, upcoming, stale, reason, favoriteOnly }: Dashb
       {upcoming.length === 0 ? <Text dimColor>none</Text> :
         upcoming.map((f) => (
           <Box key={f.id}>
-            <Text dimColor>{f.utcKickoff.replace('T', ' ').replace('.000Z', '')}</Text>
+            <Text dimColor>{formatKickoff(f.utcKickoff)}</Text>
             <Text>  {f.home.code} vs {f.away.code}  </Text>
             <Text dimColor>{f.stage}{f.group ? ' ' + f.group : ''}</Text>
           </Box>

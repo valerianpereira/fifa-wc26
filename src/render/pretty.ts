@@ -1,6 +1,7 @@
 import Table from 'cli-table3';
 import chalk from 'chalk';
 import type { Fixture, LiveMatch, GroupStanding, Team } from '../providers/types.js';
+import { detectTimeZone, formatKickoff, tzLabel } from './time.js';
 
 const stageLabel = (s: string): string => ({
   group: 'Group', r16: 'R16', qf: 'QF', sf: 'SF', third: '3rd', final: 'Final',
@@ -17,13 +18,14 @@ const scoreStr = (f: Fixture): string => (f.score ? `${f.score.home}-${f.score.a
 
 export function renderFixturesPretty(fixtures: Fixture[], emptyMessage = 'no matches'): string {
   if (fixtures.length === 0) return chalk.dim(emptyMessage);
+  const tz = detectTimeZone();
   const t = new Table({
-    head: ['Kickoff (UTC)', 'Stage', 'Home', 'Away', 'Venue', 'Score', 'Status'],
+    head: [`Kickoff (${tzLabel(tz)})`, 'Stage', 'Home', 'Away', 'Venue', 'Score', 'Status'],
     style: { head: ['bold'] },
   });
   for (const f of fixtures) {
     t.push([
-      f.utcKickoff.replace('T', ' ').replace('.000Z', ''),
+      formatKickoff(f.utcKickoff, tz),
       `${stageLabel(f.stage)}${f.group ? ' ' + f.group : ''}`,
       `${f.home.code} ${chalk.dim(f.home.name)}`,
       `${f.away.code} ${chalk.dim(f.away.name)}`,
