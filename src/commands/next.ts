@@ -24,6 +24,7 @@ export function nextCmd(p: Command): void {
             return { data, provider };
           },
           g,
+          { validate: (d) => (g.team ? d.length > 0 : d.length >= 50) },
         );
         const now = Date.now();
         const out = data

@@ -31,6 +31,7 @@ export function fixturesCmd(p: Command): void {
             return { data, provider };
           },
           g,
+          { validate: (d) => (g.team || g.from || g.to || g.stage ? d.length > 0 : d.length >= 50) },
         );
         const filtered = data.filter((f) =>
           (!q.stage || f.stage === q.stage) &&

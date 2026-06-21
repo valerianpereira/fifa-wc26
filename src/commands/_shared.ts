@@ -42,23 +42,29 @@ export async function buildRegistry(opts: GlobalOpts): Promise<ProviderRegistry>
   return new ProviderRegistry(providers);
 }
 
+export interface RunCachedOpts<T> {
+  validate?: (data: T) => boolean;
+}
+
 export async function runCached<T>(
   key: string,
   ttlSec: number,
   fetcher: () => Promise<{ data: T; provider: string }>,
   opts: GlobalOpts,
+  cacheOpts: RunCachedOpts<T> = {},
 ): Promise<{ data: T; stale: boolean; reason?: string }> {
+  const validate = cacheOpts.validate ?? ((): boolean => true);
   if (!opts.noCache) {
     const hit = await env.cache.read<T>(key, { allowStale: false });
-    if (hit) return { data: hit.data, stale: false };
+    if (hit && validate(hit.data)) return { data: hit.data, stale: false };
   }
   try {
     const { data, provider } = await fetcher();
-    await env.cache.write(key, data, ttlSec, provider);
+    if (validate(data)) await env.cache.write(key, data, ttlSec, provider);
     return { data, stale: false };
   } catch (e) {
     const stale = await env.cache.read<T>(key, { allowStale: true });
-    if (stale) {
+    if (stale && validate(stale.data)) {
       const reason = e instanceof WC26Error ? e.code.toLowerCase() : 'unreachable';
       return { data: stale.data, stale: true, reason };
     }
