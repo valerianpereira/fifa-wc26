@@ -213,7 +213,7 @@ export class FootballDataProvider implements Provider {
     const out: GroupStanding[] = [];
     for (const s of data.standings ?? []) {
       if (s.type && s.type !== 'TOTAL') continue;
-      const label = (s.group ?? '').replace(/^GROUP_/i, '').trim().toUpperCase().slice(0, 1);
+      const label = (s.group ?? '').replace(/^GROUP[_\s]+/i, '').trim().toUpperCase().slice(0, 1);
       if (!label) continue;
       out.push({
         group: label,
