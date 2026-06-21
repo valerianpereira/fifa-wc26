@@ -1,6 +1,6 @@
 {
   "name": "fifa-wc26",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "FIFA World Cup 2026 CLI: fixtures, live scores, group standings, ASCII bracket, team lookup. Keyless providers, smart cache, terminal-friendly output.",
   "type": "module",
   "bin": {
