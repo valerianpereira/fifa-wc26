@@ -1,5 +1,6 @@
 import { httpJson } from '../http/client.js';
 import { WC26Error } from '../errors.js';
+import { lookupWC26Venue } from '../data/wc26-venues.js';
 import {
   Provider, Fixture, FixtureQuery, LiveMatch, MatchDetail, GroupStanding,
   BracketNode, Team, Stage, Status,
@@ -103,15 +104,16 @@ function fixtureFromMatch(m: FDMatch): Fixture {
         awayPens: m.score?.penalties?.away ?? undefined,
       }
     : undefined;
-  const group = m.group ? m.group.replace(/^Group\s+/i, '').trim().toUpperCase().slice(0, 1) : undefined;
+  const group = m.group ? m.group.replace(/^GROUP[_\s]+/i, '').trim().toUpperCase().slice(0, 1) : undefined;
+  const id = String(m.id);
   return {
-    id: String(m.id),
+    id,
     utcKickoff: new Date(m.utcDate).toISOString(),
     stage: mapStage(m.stage),
     group: group || undefined,
     home: teamRef(m.homeTeam),
     away: teamRef(m.awayTeam),
-    venue: m.venue ?? '',
+    venue: m.venue ?? lookupWC26Venue(id) ?? '',
     status,
     score,
   };
